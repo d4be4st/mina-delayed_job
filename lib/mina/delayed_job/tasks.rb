@@ -2,11 +2,11 @@
 # Adds settings and tasks for managing DelayedJob workers.
 #
 # ## Usage example
-#     require 'mina_delayed_job/tasks'
+#     require 'mina/delayed_job'
 #     ...
 #     task :setup do
 #       # delayed_job needs a place to store its pid file
-#       queue! %[mkdir -p "#{deploy_to}/shared/pids/"]
+#       invoke :'delayed_job:setup'
 #     end
 #
 #     task :deploy do
@@ -41,13 +41,19 @@ set_default :delayed_job_processes, 1
 
 # ## Control Tasks
 namespace :delayed_job do
+  # ### delayed_job:setup
+  desc "Stop delayed_job"
+  task :setup => :environment do
+    queue! %[mkdir -p "#{delayed_job_pid_dir}"]
+  end
+
   # ### delayed_job:stop
   desc "Stop delayed_job"
   task :stop => :environment do
     queue %[echo "-----> Stop delayed_job"]
     queue %[
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[#{rails_env} #{delayed_job} stop --pid_dir=#{delayed_job_pid_dir}]}
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} stop --pid-dir=#{delayed_job_pid_dir} ]}
     ]
   end
 
@@ -57,7 +63,7 @@ namespace :delayed_job do
     queue %[echo "-----> Start delayed_job"]
     queue %{
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[#{rails_env} #{delayed_job} -n #{delayed_job_processes} --pid_dir=#{delayed_job_pid_dir start }] }
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} start -n #{delayed_job_processes} --pid-dir=#{delayed_job_pid_dir  }] }
     }
   end
 
@@ -67,7 +73,7 @@ namespace :delayed_job do
     queue %[echo "-----> Restart delayed_job"]
     queue %{
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[#{rails_env} #{delayed_job} -n #{delayed_job_processes} --pid_dir=#{delayed_job_pid_dir restart}] }
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} restart -n #{delayed_job_processes} --pid-dir=#{delayed_job_pid_dir }] }
     }
   end
 
@@ -77,7 +83,7 @@ namespace :delayed_job do
     queue %[echo "-----> Delayed_job Status"]
     queue %{
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[#{rails_env} #{delayed_job} --pid_dir=#{delayed_job_pid_dir status}] }
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} status --pid-dir=#{delayed_job_pid_dir }] }
     }
   end
 end
