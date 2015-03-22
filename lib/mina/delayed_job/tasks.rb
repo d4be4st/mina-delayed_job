@@ -31,7 +31,7 @@ require 'mina/rails'
 # Sets the path to delayed_job.
 set_default :delayed_job, lambda { "bin/delayed_job" }
 
-# ### delayed_job_pid_id
+# ### delayed_job_pid_dir
 # Sets the dir to the pid files of a delayed_job workers
 set_default :delayed_job_pid_dir, lambda { "#{deploy_to}/#{shared_path}/pids" }
 
