@@ -42,7 +42,7 @@ set_default :delayed_job_processes, 1
 # ## Control Tasks
 namespace :delayed_job do
   # ### delayed_job:setup
-  desc "Stop delayed_job"
+  desc "Setup delayed_job"
   task :setup => :environment do
     queue! %[mkdir -p "#{delayed_job_pid_dir}"]
   end
