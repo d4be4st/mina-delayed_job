@@ -39,6 +39,8 @@ set_default :delayed_job_pid_dir, lambda { "#{deploy_to}/#{shared_path}/pids" }
 # Sets the number of delayed_job processes launched
 set_default :delayed_job_processes, 1
 
+set_default :delayed_job_additional_params, ''
+
 # ## Control Tasks
 namespace :delayed_job do
   # ### delayed_job:setup
@@ -53,7 +55,7 @@ namespace :delayed_job do
     queue %[echo "-----> Stop delayed_job"]
     queue %[
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} stop --pid-dir=#{delayed_job_pid_dir} ]}
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} #{delayed_job_additional_params} stop --pid-dir=#{delayed_job_pid_dir} ]}
     ]
   end
 
@@ -63,7 +65,7 @@ namespace :delayed_job do
     queue %[echo "-----> Start delayed_job"]
     queue %{
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} start -n #{delayed_job_processes} --pid-dir=#{delayed_job_pid_dir  }] }
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} #{delayed_job_additional_params} start -n #{delayed_job_processes} --pid-dir=#{delayed_job_pid_dir  }] }
     }
   end
 
@@ -73,7 +75,7 @@ namespace :delayed_job do
     queue %[echo "-----> Restart delayed_job"]
     queue %{
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} restart -n #{delayed_job_processes} --pid-dir=#{delayed_job_pid_dir }] }
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} #{delayed_job_additional_params} restart -n #{delayed_job_processes} --pid-dir=#{delayed_job_pid_dir }] }
     }
   end
 
@@ -83,7 +85,7 @@ namespace :delayed_job do
     queue %[echo "-----> Delayed_job Status"]
     queue %{
       cd "#{deploy_to}/#{current_path}"
-      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} status --pid-dir=#{delayed_job_pid_dir }] }
+      #{echo_cmd %[RAILS_ENV="#{rails_env}" #{delayed_job} #{delayed_job_additional_params} status --pid-dir=#{delayed_job_pid_dir }] }
     }
   end
 end
