@@ -34,6 +34,10 @@ Sets the dir to the pid files of a delayed_job workers
 Sets the number of delayed_job processes launched
 
     set_default :delayed_job_processes, 1
+    
+Sets some aditional parameters
+
+    set_default :delayed_job_additional_params, ''
 
 ### Usage example
 
