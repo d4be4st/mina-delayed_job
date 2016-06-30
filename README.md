@@ -25,28 +25,23 @@ Any and all of these settings can be overriden in your `deploy.rb`.
 
 Sets the path to delayed_job.
 
-    set_default :delayed_job, lambda { "bin/delayed_job" }
+    set :delayed_job, lambda { "bin/delayed_job" }
 
 Sets the dir to the pid files of a delayed_job workers
 
-    set_default :delayed_job_pid_dir, lambda { "#{deploy_to}/#{shared_path}/pids" }
+    set :delayed_job_pid_dir, 'pids'
 
 Sets the number of delayed_job processes launched
 
     set_default :delayed_job_processes, 1
-    
-Sets some aditional parameters
+
+Sets some additional parameters
 
     set_default :delayed_job_additional_params, ''
 
 ### Usage example
 
     require 'mina/delayed_job'
-    ...
-    task :setup do
-      # delayed_job needs a place to store its pid file
-      invoke :'delayed_job:setup'
-    end
 
     task :deploy do
       deploy do
