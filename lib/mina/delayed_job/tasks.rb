@@ -1,11 +1,11 @@
 require 'mina/bundler'
 require 'mina/rails'
 
-set :delayed_job, -> { 'bin/delayed_job' }
+set :delayed_job, 'bin/delayed_job'
 set :delayed_job_pid_dir, 'pids'
 set :delayed_job_processes, 1
 set :delayed_job_additional_params, ''
-set :shared_dirs, -> { fetch(:shared_dirs, []).push(fetch(:delayed_job_pid_dir)) }
+set :shared_dirs, fetch(:shared_dirs, []).push(fetch(:delayed_job_pid_dir))
 
 namespace :delayed_job do
   desc 'Stop delayed_job'
