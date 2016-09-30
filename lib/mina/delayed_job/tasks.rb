@@ -20,7 +20,7 @@ namespace :delayed_job do
   task start: :environment do
     comment 'Start delayed_job'
     in_path(fetch(:current_path)) do
-      command "RAILS_ENV='#{fetch(:rails_env)}' #{fetch(:delayed_job)} #{fetch(:delayed_job_additional_params)} start -n #{delayed_job_processes} --pid-dir='#{fetch(:shared_path)}/#{fetch(:delayed_job_pid_dir)}'"
+      command "RAILS_ENV='#{fetch(:rails_env)}' #{fetch(:delayed_job)} #{fetch(:delayed_job_additional_params)} start -n #{fetch(:delayed_job_processes)} --pid-dir='#{fetch(:shared_path)}/#{fetch(:delayed_job_pid_dir)}'"
     end
   end
 
@@ -28,7 +28,7 @@ namespace :delayed_job do
   task restart: :environment do
     comment 'Restart delayed_job'
     in_path(fetch(:current_path)) do
-      command "RAILS_ENV='#{fetch(:rails_env)}' #{fetch(:delayed_job)} #{fetch(:delayed_job_additional_params)} restart -n #{delayed_job_processes} --pid-dir='#{fetch(:shared_path)}/#{fetch(:delayed_job_pid_dir)}'"
+      command "RAILS_ENV='#{fetch(:rails_env)}' #{fetch(:delayed_job)} #{fetch(:delayed_job_additional_params)} restart -n #{fetch(:delayed_job_processes)} --pid-dir='#{fetch(:shared_path)}/#{fetch(:delayed_job_pid_dir)}'"
     end
   end
 
