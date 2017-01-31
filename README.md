@@ -33,11 +33,11 @@ Sets the dir to the pid files of a delayed_job workers
 
 Sets the number of delayed_job processes launched
 
-    set_default :delayed_job_processes, 1
+    set :delayed_job_processes, 1
 
 Sets some additional parameters
 
-    set_default :delayed_job_additional_params, ''
+    set :delayed_job_additional_params, ''
 
 ### Usage example
 
@@ -48,7 +48,7 @@ Sets some additional parameters
         invoke :'git:clone'
         ...
 
-        to :launch do
+        on :launch do
           ...
           invoke :'delayed_job:restart'
         end
